@@ -21,7 +21,7 @@ def get_pplm_batch_iterator(
     tokenizer,
     config,
     split: str = "train",
-    device: str = "cuda",
+    device: str = "cuda" if torch.cuda.is_available() else "cpu",
 ) -> Iterator[Dict]:
     """
     Get an iterator over batches of data.

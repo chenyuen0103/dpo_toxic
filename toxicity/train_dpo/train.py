@@ -82,6 +82,14 @@ def main(config: DictConfig):
     and kicks off worker process(es).
     """
     # Resolve hydra references, e.g. so we don't re-compute the run directory
+
+    # Set default values for exp_name and local_run_dir if not provided
+    if "exp_name" not in config or config.exp_name is None:
+        config.exp_name = "default_exp_name"
+
+    if "local_run_dir" not in config or config.local_run_dir is None:
+        config.local_run_dir = get_local_run_dir(config.exp_name, config.local_dirs)
+
     OmegaConf.resolve(config)
 
     missing_keys: Set[str] = OmegaConf.missing_keys(config)
